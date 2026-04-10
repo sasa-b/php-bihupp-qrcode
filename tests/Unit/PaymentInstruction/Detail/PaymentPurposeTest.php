@@ -17,7 +17,7 @@ final class PaymentPurposeTest extends TestCase
     {
         $purpose = new PaymentPurpose('Invoice payment');
 
-        $this->assertSame("Invoice\npayment", $purpose->value);
+        $this->assertSame('Invoice payment', $purpose->value);
     }
 
     #[Test]
@@ -25,7 +25,7 @@ final class PaymentPurposeTest extends TestCase
     {
         $purpose = new PaymentPurpose('Invoice payment');
 
-        $this->assertSame("Invoice\npayment\n", (string) $purpose);
+        $this->assertSame("Invoice payment\n", (string) $purpose);
     }
 
     #[Test]
@@ -48,19 +48,11 @@ final class PaymentPurposeTest extends TestCase
     }
 
     #[Test]
-    public function it_accepts_special_characters(): void
-    {
-        $purpose = new PaymentPurpose('Uplata za usluge');
-
-        $this->assertSame("Uplata\nza\nusluge", $purpose->value);
-    }
-
-    #[Test]
     public function it_accepts_allowed_special_characters(): void
     {
-        $purpose = new PaymentPurpose('Payment (invoice 123) - discount');
+        $purpose = new PaymentPurpose("Payment\n(invoice 123)\n-\ndiscount");
 
-        $this->assertSame("Payment\n(invoice\n123)\n-\ndiscount", $purpose->value);
+        $this->assertSame('Payment (invoice 123) - discount', $purpose->value);
     }
 
     #[Test]

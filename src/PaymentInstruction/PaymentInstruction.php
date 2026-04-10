@@ -9,8 +9,8 @@ use Sco\BihuppQRCode\PaymentInstruction\Detail\Currency;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPriorityLine;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPurpose;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentReference;
+use Sco\BihuppQRCode\PaymentInstruction\Detail\Sender;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\Recipient;
-use Sco\BihuppQRCode\PaymentInstruction\Sender\Sender;
 
 /**
  * Naloga za plaćanje u bankama u unutrašnjem platnom promet
@@ -70,6 +70,7 @@ final readonly class PaymentInstruction implements \Stringable
             ],
         ];
     }
+
     public function __toString(): string
     {
         return implode('', $this->lines());

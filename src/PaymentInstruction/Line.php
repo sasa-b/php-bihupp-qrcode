@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Sco\BihuppQRCode\PaymentInstruction;
 
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
-use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidFormatException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 
 abstract readonly class Line implements \Stringable
 {
@@ -23,10 +23,10 @@ abstract readonly class Line implements \Stringable
 
     /**
      * @throws InvalidLengthException
-     * @throws InvalidFormatException
+     * @throws InvalidValueException
      * @throws InvalidCharacterException
      */
-    protected static function validate(string $class, string $value, int $maxLength): void
+    protected static function validateLengthAndChars(string $class, string $value, int $maxLength): void
     {
         $length = strlen($value);
 

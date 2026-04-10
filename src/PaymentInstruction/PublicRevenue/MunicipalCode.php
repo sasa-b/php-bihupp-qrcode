@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\PublicRevenue;
 
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
@@ -15,6 +16,8 @@ final readonly class MunicipalCode extends Line
 
     public function __construct(public string $value)
     {
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        if (preg_match('/^[0-9]{3}$/', $value) !== 1) {
+            throw new InvalidValueException("Invalid municipal code must be a 3 digit integer, got: $value.");
+        }
     }
 }

@@ -20,6 +20,6 @@ final readonly class PaymentReference extends Line
     public function __construct(
         public string $value,
     ) {
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
     }
 }

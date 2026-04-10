@@ -13,11 +13,19 @@ use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 final class AddressLine2Test extends TestCase
 {
     #[Test]
+    public function it_creates_with_valid_postal_code_and_city(): void
+    {
+        $address = AddressLine2::from('78000', 'Banja Luka');
+
+        $this->assertSame('78000 Banja Luka', $address->value);
+    }
+
+    #[Test]
     public function it_converts_to_string_that_ends_with_lf_char(): void
     {
         $addressLine2 = AddressLine2::from('78000', 'Banja Luka');
 
-        $this->assertSame('78000 Banja Luka', $addressLine2->value);
+        $this->assertSame("78000 Banja Luka\n", (string) $addressLine2);
     }
 
     #[Test]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\PublicRevenue;
 
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
@@ -15,6 +16,10 @@ final readonly class PaymentReference extends Line
 
     public function __construct(public string $value)
     {
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        if (!preg_match('/^[0-9]{10}$/', $value)) {
+            throw new InvalidValueException('Payment reference must be a 10 digit integer.');
+        }
+
+        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
     }
 }

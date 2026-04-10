@@ -11,6 +11,14 @@ use Sco\BihuppQRCode\PaymentInstruction\Version;
 final class VersionTest extends TestCase
 {
     #[Test]
+    public function it_creates_with_valid_version(): void
+    {
+        $version = new Version();
+
+        $this->assertSame("BIHUPP10\n", (string) $version);
+    }
+
+    #[Test]
     public function it_converts_to_string_that_ends_with_lf_char(): void
     {
         $version = new Version();

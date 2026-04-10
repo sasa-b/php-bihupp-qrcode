@@ -8,6 +8,8 @@ use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
  * Valuta.
+ *
+ * ISO 4217 currency code.
  */
 final readonly class Currency extends Line
 {
@@ -15,7 +17,11 @@ final readonly class Currency extends Line
 
     private const string BAM = 'BAM';
 
-    public function __construct(
-        public string $value = self::BAM,
-    ) {}
+    public function __construct() {}
+
+    #[\Override]
+    public function __toString(): string
+    {
+        return self::BAM.Line::END;
+    }
 }

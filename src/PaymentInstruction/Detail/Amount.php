@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Detail;
 
-use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidFormatException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
@@ -26,10 +26,10 @@ final readonly class Amount extends Line
         $value = str_replace('.', '', $value);
 
         if (preg_match('/\D/', $value) === 1) {
-            throw new InvalidFormatException('Amount must be a zero padded integer number (value in pennies).');
+            throw new InvalidValueException('Amount must be a zero padded integer number (value in pennies).');
         }
 
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
 
         $this->value = str_pad($value, self::MAX_LENGTH, '0', STR_PAD_LEFT);
     }

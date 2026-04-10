@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Recipient;
 
+use Sco\BihuppQRCode\PaymentInstruction\Detail\Account;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
@@ -17,8 +19,21 @@ final readonly class RecipientAccount extends Line
     /**
      * @throws InvalidLengthException
      */
-    public function __construct(public string $value)
+    private function __construct(public string $value)
     {
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
+    }
+
+    public static function from(Account ...$account): self
+    {
+        if (count($account) === 0) {
+            throw new InvalidValueException('At least one account is required.');
+        }
+
+        if (count($account) > 20) {
+            throw new InvalidValueException('Maximum of 20 accounts is allowed.');
+        }
+
+        return new self(implode(',', array_map(static fn (Account $a) => $a->value, $account)));
     }
 }

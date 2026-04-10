@@ -12,6 +12,14 @@ use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPriorityLine;
 final class PaymentTypeLineTest extends TestCase
 {
     #[Test]
+    public function it_creates_with_valid_default_priority(): void
+    {
+        $line = new PaymentPriorityLine();
+
+        $this->assertSame('D', $line->value);
+    }
+
+    #[Test]
     public function it_creates_from_regular_payment_type(): void
     {
         $paymentTypeLine = PaymentPriorityLine::from(PaymentPriority::Regular);

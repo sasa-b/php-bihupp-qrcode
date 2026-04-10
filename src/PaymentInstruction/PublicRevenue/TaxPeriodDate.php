@@ -12,11 +12,11 @@ final readonly class TaxPeriodDate extends Line
 
     private function __construct(public string $value)
     {
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
     }
 
     public static function fromDate(\DateTimeInterface $date): self
     {
-        return new self($date->format('d/m/y'));
+        return new self($date->format('dmY'));
     }
 }

@@ -7,8 +7,8 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Recipient;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
-use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidFormatException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\PhoneNumber;
 
 final class PhoneNumberTest extends TestCase
@@ -32,7 +32,7 @@ final class PhoneNumberTest extends TestCase
     #[Test]
     public function it_throws_exception_when_not_starting_with_plus(): void
     {
-        $this->expectException(InvalidFormatException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Phone number must be in E.164 format starting with +.');
 
         new PhoneNumber('38761234567');
@@ -75,18 +75,9 @@ final class PhoneNumberTest extends TestCase
     }
 
     #[Test]
-    public function it_accepts_minimum_length_phone_number(): void
-    {
-        // Minimum valid E.164 phone number (e.g., +1)
-        $phoneNumber = new PhoneNumber('+1');
-
-        $this->assertSame('+1', $phoneNumber->value);
-    }
-
-    #[Test]
     public function it_rejects_phone_number_with_spaces(): void
     {
-        $this->expectException(InvalidFormatException::class);
+        $this->expectException(InvalidValueException::class);
 
         new PhoneNumber('387 61 234 567');
     }
@@ -94,7 +85,7 @@ final class PhoneNumberTest extends TestCase
     #[Test]
     public function it_rejects_phone_number_with_leading_zeros(): void
     {
-        $this->expectException(InvalidFormatException::class);
+        $this->expectException(InvalidValueException::class);
 
         new PhoneNumber('0038761234567');
     }

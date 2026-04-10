@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Recipient;
 
-use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidFormatException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
@@ -22,16 +22,22 @@ final readonly class PhoneNumber extends Line
 {
     public const int MAX_LENGTH = 15;
 
+    public string $value;
+
     /**
-     * @throws InvalidFormatException if the phone number does not start with +
+     * @throws InvalidValueException  if the phone number does not start with +
      * @throws InvalidLengthException
      */
-    public function __construct(public string $value)
+    public function __construct(string $value)
     {
-        if (!str_starts_with($this->value, '+')) {
-            throw new InvalidFormatException('Phone number must be in E.164 format starting with +.');
+        $value = str_replace(' ', '', $value);
+
+        if (!str_starts_with($value, '+')) {
+            throw new InvalidValueException('Phone number must be in E.164 format starting with +.');
         }
 
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
+
+        $this->value = $value;
     }
 }

@@ -22,8 +22,8 @@ final readonly class PaymentPurpose extends Line
     public function __construct(
         string $value,
     ) {
-        $this->value = str_replace(" ", "\n", $value);
+        $this->value = str_replace("\n", ' ', $value);
 
-        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+        self::validateLengthAndChars(__CLASS__, $this->value, self::MAX_LENGTH);
     }
 }

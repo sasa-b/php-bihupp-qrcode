@@ -13,11 +13,19 @@ use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 final class AddressLine1Test extends TestCase
 {
     #[Test]
+    public function it_creates_with_valid_street_and_number(): void
+    {
+        $address = AddressLine1::from('Ulica Meše Selimovića', '12');
+
+        $this->assertSame('Ulica Meše Selimovića 12', $address->value);
+    }
+
+    #[Test]
     public function it_converts_to_string_that_ends_with_lf_char(): void
     {
         $addressLine1 = AddressLine1::from('Ulica Kralja Petra 1. Karađorđevića', '3');
 
-        $this->assertSame('Ulica Kralja Petra 1. Karađorđevića 3', $addressLine1->value);
+        $this->assertSame("Ulica Kralja Petra 1. Karađorđevića 3\n", (string) $addressLine1);
     }
 
     #[Test]

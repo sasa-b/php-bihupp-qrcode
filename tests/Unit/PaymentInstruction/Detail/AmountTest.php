@@ -7,11 +7,19 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Detail;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\Amount;
-use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidFormatException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 
 final class AmountTest extends TestCase
 {
+    #[Test]
+    public function it_creates_with_valid_amount(): void
+    {
+        $amount = new Amount('10000');
+
+        $this->assertSame('000000000010000', $amount->value);
+    }
+
     #[Test]
     public function it_converts_to_string_that_ends_with_lf_char(): void
     {
@@ -72,7 +80,7 @@ final class AmountTest extends TestCase
     #[Test]
     public function it_throws_exception_when_invalid_characters_are_provided(): void
     {
-        $this->expectException(InvalidFormatException::class);
+        $this->expectException(InvalidValueException::class);
 
         new Amount('100@00');
     }
