@@ -16,7 +16,7 @@ final readonly class Name extends Line
     /**
      * @throws InvalidLengthException
      */
-    private function __construct(
+    public function __construct(
         public string $value,
     ) {
         self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
@@ -27,7 +27,7 @@ final readonly class Name extends Line
         return new self("$firstName $lastName");
     }
 
-    public function business($name): self
+    public static function business($name): self
     {
         return new self($name);
     }
