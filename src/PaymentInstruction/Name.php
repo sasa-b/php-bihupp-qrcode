@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sco\BihuppQRCode\PaymentInstruction\Detail;
+namespace Sco\BihuppQRCode\PaymentInstruction;
 
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
-use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
  * Naziv/Ime i prezime (uplatioca ili primaoca).

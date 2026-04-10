@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sco\BihuppQRCode\PaymentInstruction\Sender;
 
 use Sco\BihuppQRCode\PaymentInstruction\Address\Address;
-use Sco\BihuppQRCode\PaymentInstruction\Detail\Name;
+use Sco\BihuppQRCode\PaymentInstruction\Name;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\PhoneNumber;
 
 /**

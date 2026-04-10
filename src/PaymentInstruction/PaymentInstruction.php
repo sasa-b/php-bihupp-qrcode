@@ -6,6 +6,7 @@ namespace Sco\BihuppQRCode\PaymentInstruction;
 
 use Sco\BihuppQRCode\PaymentInstruction\Detail\Amount;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\Currency;
+use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPriorityLine;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPurpose;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentReference;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\Recipient;
@@ -24,24 +25,27 @@ final readonly class PaymentInstruction
         public ?PaymentReference $reference,
         public Amount $amount,
         public Currency $currency = new Currency(),
+        public PaymentPriorityLine $paymentPriority = new PaymentPriorityLine(),
+        public ?PublicRevenueInstruction $publicRevenue = null,
         public Version $version = new Version(),
     ) {}
 
     /**
      * @return array<Line>
      */
-    public function toLines(): array
+    public function toQRCodeContent(): array
     {
+        // Order of these is important and should not change
         return [
             $this->version,
 
             $this->sender->name,
             $this->sender->address->addressLine1,
             $this->sender->address->addressLine2,
-            $this->sender->phoneNumber,
+            $this->sender->phoneNumber ?: new EmptyLine(),
 
             $this->purpose,
-            $this->reference,
+            $this->reference ?: new EmptyLine(),
 
             $this->recipient->name,
             $this->recipient->address->addressLine1,
@@ -52,6 +56,18 @@ final readonly class PaymentInstruction
 
             $this->amount,
             $this->currency,
+            $this->paymentPriority,
+
+            ...[
+                $this->publicRevenue?->senderTaxId ?: new EmptyLine(),
+                $this->publicRevenue?->paymentType ?: new EmptyLine(),
+                $this->publicRevenue?->revenueType ?: new EmptyLine(),
+                $this->publicRevenue?->taxPeriodStartDate ?: new EmptyLine(),
+                $this->publicRevenue?->taxPeriodEndDate ?: new EmptyLine(),
+                $this->publicRevenue?->municipalCode ?: new EmptyLine(),
+                $this->publicRevenue?->budgetCode ?: new EmptyLine(),
+                $this->publicRevenue?->paymentReference ?: new EmptyLine(),
+            ],
         ];
     }
 }

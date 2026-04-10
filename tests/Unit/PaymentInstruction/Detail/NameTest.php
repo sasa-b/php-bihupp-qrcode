@@ -6,8 +6,8 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Detail;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Sco\BihuppQRCode\PaymentInstruction\Detail\Name;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Name;
 
 final class NameTest extends TestCase
 {

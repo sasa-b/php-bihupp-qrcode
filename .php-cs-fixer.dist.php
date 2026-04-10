@@ -4,10 +4,12 @@ $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__ . '/src',__DIR__ . '/tests']);
 
 $config = (new PhpCsFixer\Config())
+//    ->setRiskyAllowed(true)
     ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers());
 
 return $config->setRules([
-    '@PSR12' => true,
+//    '@PHP83Migration' => true,
+    '@PER' => true,
     '@Symfony' => true,
     'strict_param' => true,
     'array_syntax' => ['syntax' => 'short'],
