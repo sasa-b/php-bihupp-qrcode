@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Sco\BihuppQRCode\PaymentInstruction\Address;
+
+use Sco\BihuppQRCode\PaymentInstruction\Line;
+
+/**
+ * Adresa uplatioca/primaoca (poštanski broj i mjesto).
+ */
+final readonly class AddressLine2 extends Line
+{
+    public const int MAX_LENGTH = 25;
+
+    private function __construct(public string $value)
+    {
+        self::validate(__CLASS__, $value, self::MAX_LENGTH);
+    }
+
+    public static function from(string $postcode, string $town): self
+    {
+        return new self("$postcode $town");
+    }
+}
