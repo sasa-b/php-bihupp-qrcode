@@ -9,9 +9,15 @@ namespace Sco\BihuppQRCode\PaymentInstruction;
  */
 final readonly class Version extends Line
 {
+    public const int MAX_LENGTH = 8;
+
     private const string LATEST = 'BIHUPP10';
 
-    public function __construct(
-        public string $value = self::LATEST,
-    ) {}
+    public function __construct() {}
+
+    #[\Override]
+    public function __toString(): string
+    {
+        return self::LATEST.Line::END;
+    }
 }

@@ -16,7 +16,7 @@ use Sco\BihuppQRCode\PaymentInstruction\Sender\Sender;
  * Naloga za plaćanje u bankama u unutrašnjem platnom promet
  * Ako pošiljaoc ne bude poslan, banke će povući podatke iz svog sistema i ispuniti automatski.
  */
-final readonly class PaymentInstruction
+final readonly class PaymentInstruction implements \Stringable
 {
     public function __construct(
         public ?Sender $sender,
@@ -33,7 +33,7 @@ final readonly class PaymentInstruction
     /**
      * @return array<Line>
      */
-    public function toQRCodeContent(): array
+    public function lines(): array
     {
         // Order of these is important and should not change
         return [
@@ -69,5 +69,9 @@ final readonly class PaymentInstruction
                 $this->publicRevenue?->paymentReference ?: new EmptyLine(),
             ],
         ];
+    }
+    public function __toString(): string
+    {
+        return implode('', $this->lines());
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Sender;
 
-use Sco\BihuppQRCode\PaymentInstruction\Detail\Account;
+use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
  * Račun pošiljaoca.
  */
-final readonly class SenderAccount extends Account
+final readonly class SenderAccount extends Line
 {
     public const int MAX_LENGTH = 16;
 

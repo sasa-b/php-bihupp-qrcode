@@ -6,6 +6,7 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Detail;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentReference;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 
@@ -31,7 +32,7 @@ final class PaymentReferenceTest extends TestCase
     public function it_throws_exception_when_exceeding_max_length(): void
     {
         $this->expectException(InvalidLengthException::class);
-        $this->expectExceptionMessage('Payment reference exceeds maximum length of 30 characters');
+        $this->expectExceptionMessage('PaymentReference exceeds maximum length of 30 characters');
 
         // Create a reference string longer than 30 characters
         new PaymentReference(str_repeat('1', 31));
@@ -60,5 +61,13 @@ final class PaymentReferenceTest extends TestCase
         $reference = new PaymentReference('REF-123/456');
 
         $this->assertSame('REF-123/456', $reference->value);
+    }
+
+    #[Test]
+    public function it_throws_exception_when_invalid_characters_are_provided(): void
+    {
+        $this->expectException(InvalidCharacterException::class);
+
+        new PaymentReference('REF@123');
     }
 }

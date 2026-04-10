@@ -6,6 +6,7 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Sender;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Sender\SenderAccount;
 
@@ -31,7 +32,7 @@ final class SenderAccountTest extends TestCase
     public function it_throws_exception_when_exceeding_max_length(): void
     {
         $this->expectException(InvalidLengthException::class);
-        $this->expectExceptionMessage('Sender account exceeds maximum length of 16 characters');
+        $this->expectExceptionMessage('SenderAccount exceeds maximum length of 16 characters');
 
         // Create an account string longer than 16 characters
         new SenderAccount(str_repeat('1', 17));
@@ -47,26 +48,18 @@ final class SenderAccountTest extends TestCase
     }
 
     #[Test]
-    public function it_creates_from_int(): void
-    {
-        $account = SenderAccount::fromInt(1234567890123456);
-
-        $this->assertSame('1234567890123456', $account->value);
-    }
-
-    #[Test]
-    public function it_creates_from_float(): void
-    {
-        $account = SenderAccount::fromFloat(1234567890123456.0);
-
-        $this->assertSame('1234567890123456', $account->value);
-    }
-
-    #[Test]
     public function it_accepts_short_account_numbers(): void
     {
         $account = new SenderAccount('123456');
 
         $this->assertSame('123456', $account->value);
+    }
+
+    #[Test]
+    public function it_throws_exception_when_invalid_characters_are_provided(): void
+    {
+        $this->expectException(InvalidCharacterException::class);
+
+        new SenderAccount('1234@789');
     }
 }

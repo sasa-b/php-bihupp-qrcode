@@ -14,15 +14,16 @@ final readonly class PaymentPurpose extends Line
 {
     public const int MAX_LENGTH = 110;
 
+    public string $value;
+
     /**
      * @throws InvalidLengthException
      */
     public function __construct(
-        public string $value,
+        string $value,
     ) {
-        $length = strlen($this->value);
-        if ($length > self::MAX_LENGTH) {
-            throw new InvalidLengthException('Payment purpose', self::MAX_LENGTH, $length);
-        }
+        $this->value = str_replace(" ", "\n", $value);
+
+        self::validate(__CLASS__, $value, self::MAX_LENGTH);
     }
 }

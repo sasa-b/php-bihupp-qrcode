@@ -6,6 +6,7 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Recipient;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidFormatException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\PhoneNumber;
@@ -41,7 +42,7 @@ final class PhoneNumberTest extends TestCase
     public function it_throws_exception_when_exceeding_max_length(): void
     {
         $this->expectException(InvalidLengthException::class);
-        $this->expectExceptionMessage('Phone number exceeds maximum length of 15 characters');
+        $this->expectExceptionMessage('PhoneNumber exceeds maximum length of 15 characters');
 
         // Create a phone number longer than 15 characters (including +)
         new PhoneNumber('+'.str_repeat('1', 15));
@@ -96,5 +97,13 @@ final class PhoneNumberTest extends TestCase
         $this->expectException(InvalidFormatException::class);
 
         new PhoneNumber('0038761234567');
+    }
+
+    #[Test]
+    public function it_throws_exception_when_invalid_characters_are_provided(): void
+    {
+        $this->expectException(InvalidCharacterException::class);
+
+        new PhoneNumber('+3876@234567');
     }
 }

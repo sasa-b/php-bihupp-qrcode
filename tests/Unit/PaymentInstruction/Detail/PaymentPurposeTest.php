@@ -7,6 +7,7 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Detail;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPurpose;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 
 final class PaymentPurposeTest extends TestCase
@@ -16,7 +17,7 @@ final class PaymentPurposeTest extends TestCase
     {
         $purpose = new PaymentPurpose('Invoice payment');
 
-        $this->assertSame('Invoice payment', $purpose->value);
+        $this->assertSame("Invoice\npayment", $purpose->value);
     }
 
     #[Test]
@@ -24,14 +25,14 @@ final class PaymentPurposeTest extends TestCase
     {
         $purpose = new PaymentPurpose('Invoice payment');
 
-        $this->assertSame("Invoice payment\n", (string) $purpose);
+        $this->assertSame("Invoice\npayment\n", (string) $purpose);
     }
 
     #[Test]
     public function it_throws_exception_when_exceeding_max_length(): void
     {
         $this->expectException(InvalidLengthException::class);
-        $this->expectExceptionMessage('Payment purpose exceeds maximum length of 110 characters');
+        $this->expectExceptionMessage('PaymentPurpose exceeds maximum length of 110 characters');
 
         // Create a purpose string longer than 110 characters
         new PaymentPurpose(str_repeat('a', 111));
@@ -51,14 +52,22 @@ final class PaymentPurposeTest extends TestCase
     {
         $purpose = new PaymentPurpose('Uplata za usluge');
 
-        $this->assertSame('Uplata za usluge', $purpose->value);
+        $this->assertSame("Uplata\nza\nusluge", $purpose->value);
     }
 
     #[Test]
     public function it_accepts_allowed_special_characters(): void
     {
-        $purpose = new PaymentPurpose('Payment (invoice #123) - 50% discount');
+        $purpose = new PaymentPurpose('Payment (invoice 123) - discount');
 
-        $this->assertSame('Payment (invoice #123) - 50% discount', $purpose->value);
+        $this->assertSame("Payment\n(invoice\n123)\n-\ndiscount", $purpose->value);
+    }
+
+    #[Test]
+    public function it_throws_exception_when_invalid_characters_are_provided(): void
+    {
+        $this->expectException(InvalidCharacterException::class);
+
+        new PaymentPurpose('Invoice #123');
     }
 }

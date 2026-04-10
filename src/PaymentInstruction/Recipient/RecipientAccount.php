@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Recipient;
 
-use Sco\BihuppQRCode\PaymentInstruction\Detail\Account;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
+use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 /**
  * Račun primaoca.
  */
-final readonly class RecipientAccount extends Account
+final readonly class RecipientAccount extends Line
 {
     public const int MAX_LENGTH = 339;
 

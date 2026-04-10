@@ -6,6 +6,7 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Detail;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Name;
 
@@ -52,5 +53,13 @@ final class NameTest extends TestCase
         $name = Name::individual(str_repeat('a', 24), str_repeat('b', 25));
 
         $this->assertSame(50, strlen($name->value));
+    }
+
+    #[Test]
+    public function it_throws_exception_when_invalid_characters_are_provided(): void
+    {
+        $this->expectException(InvalidCharacterException::class);
+
+        Name::individual('Invalid@Name', 'Test');
     }
 }
