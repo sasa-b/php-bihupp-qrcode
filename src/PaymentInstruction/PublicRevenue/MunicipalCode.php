@@ -14,6 +14,9 @@ final readonly class MunicipalCode extends Line
 {
     public const int MAX_LENGTH = 3;
 
+    /**
+     * @throws InvalidValueException
+     */
     public function __construct(public string $value)
     {
         if (preg_match('/^[0-9]{3}$/', $value) !== 1) {

@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\PublicRevenue;
 
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
 final readonly class TaxPeriodDate extends Line
 {
     public const int MAX_LENGTH = 8;
 
+    /**
+     * @throws InvalidLengthException
+     * @throws InvalidCharacterException
+     */
     private function __construct(public string $value)
     {
         self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);

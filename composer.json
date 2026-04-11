@@ -39,11 +39,19 @@
         "friendsofphp/php-cs-fixer": "^3.94",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.36",
         "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^11.5"
     },
     "scripts": {
         "php-cs-fixer": [
             "vendor/bin/php-cs-fixer fix --allow-risky=yes --config=.php-cs-fixer.dist.php"
+        ],
+        "phpstan": [
+            "php -d memory_limit=2G vendor/bin/phpstan analyse --configuration=phpstan.neon.dist"
+        ],
+        "code:quality": [
+            "@php-cs-fixer",
+            "@phpstan"
         ]
     }
 }

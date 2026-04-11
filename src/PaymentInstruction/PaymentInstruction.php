@@ -30,12 +30,12 @@ final readonly class PaymentInstruction implements \Stringable
         public Amount $amount,
         public Currency $currency = new Currency(),
         public PaymentPriority $paymentPriority = new PaymentPriority(),
-        public ?PublicRevenue $publicRevenue = null,
+        public ?PublicRevenueInstruction $publicRevenue = null,
         public Version $version = new Version(),
     ) {}
 
     /**
-     * @return array<Line>
+     * @return array<int,Line>
      */
     public function lines(): array
     {
@@ -43,10 +43,10 @@ final readonly class PaymentInstruction implements \Stringable
         return [
             $this->version,
 
-            $this->sender->name,
-            $this->sender->address->addressLine1,
-            $this->sender->address->addressLine2,
-            $this->sender->phoneNumber ?: new EmptyLine(),
+            $this->sender?->name ?: new EmptyLine(),
+            $this->sender?->address->addressLine1 ?: new EmptyLine(),
+            $this->sender?->address->addressLine2 ?: new EmptyLine(),
+            $this->sender?->phoneNumber ?: new EmptyLine(),
 
             $this->purpose,
             $this->reference ?: new EmptyLine(),
@@ -55,7 +55,7 @@ final readonly class PaymentInstruction implements \Stringable
             $this->recipient->address->addressLine1,
             $this->recipient->address->addressLine2,
 
-            $this->sender->account,
+            $this->sender?->account ?: new EmptyLine(),
             $this->recipient->account,
 
             $this->amount,

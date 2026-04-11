@@ -6,6 +6,6 @@ namespace Sco\BihuppQRCode\PaymentInstruction\Detail;
 
 enum Priority: string
 {
-    case Regular = 'D';
-    case Urgent = 'N';
+    case Regular = 'N';
+    case Urgent = 'D';
 }

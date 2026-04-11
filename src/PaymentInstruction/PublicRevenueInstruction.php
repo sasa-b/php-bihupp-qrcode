@@ -15,7 +15,7 @@ use Sco\BihuppQRCode\PaymentInstruction\PublicRevenue\TaxPeriodDate;
 /**
  * Samo za uplate javnih prihoda.
  */
-final readonly class PublicRevenue
+final readonly class PublicRevenueInstruction
 {
     public function __construct(
         public SenderTaxId $senderTaxId,

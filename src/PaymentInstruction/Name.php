@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction;
 
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 
 /**
@@ -15,6 +16,7 @@ final readonly class Name extends Line
 
     /**
      * @throws InvalidLengthException
+     * @throws InvalidCharacterException
      */
     public function __construct(
         public string $value,
@@ -27,7 +29,7 @@ final readonly class Name extends Line
         return new self("$firstName $lastName");
     }
 
-    public static function business($name): self
+    public static function business(string $name): self
     {
         return new self($name);
     }

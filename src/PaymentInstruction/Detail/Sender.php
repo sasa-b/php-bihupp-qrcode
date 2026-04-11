@@ -9,7 +9,7 @@ use Sco\BihuppQRCode\PaymentInstruction\Name;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\PhoneNumber;
 
 /**
- * Pošijaoc
+ * Pošijaoc.
  */
 final readonly class Sender
 {

@@ -16,7 +16,7 @@ final class PaymentTypeLineTest extends TestCase
     {
         $line = new PaymentPriority();
 
-        $this->assertSame('D', $line->value);
+        $this->assertSame('N', $line->value);
     }
 
     #[Test]
@@ -24,7 +24,7 @@ final class PaymentTypeLineTest extends TestCase
     {
         $paymentTypeLine = PaymentPriority::from(Priority::Regular);
 
-        $this->assertSame('D', $paymentTypeLine->value);
+        $this->assertSame('N', $paymentTypeLine->value);
     }
 
     #[Test]
@@ -32,7 +32,7 @@ final class PaymentTypeLineTest extends TestCase
     {
         $paymentTypeLine = PaymentPriority::from(Priority::Urgent);
 
-        $this->assertSame('N', $paymentTypeLine->value);
+        $this->assertSame('D', $paymentTypeLine->value);
     }
 
     #[Test]
@@ -40,6 +40,6 @@ final class PaymentTypeLineTest extends TestCase
     {
         $paymentTypeLine = PaymentPriority::from(Priority::Urgent);
 
-        $this->assertSame("N\n", (string) $paymentTypeLine);
+        $this->assertSame("D\n", (string) $paymentTypeLine);
     }
 }

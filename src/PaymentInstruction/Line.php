@@ -14,6 +14,7 @@ abstract readonly class Line implements \Stringable
 
     private const string ALLOWED_CHARS_REGEXP = "#[^0-9a-zA-ZčćđšžČĆĐŠŽ ,:.?()+'/-]#u";
 
+    /** @phpstan-ignore-next-line */
     public string $value;
 
     public function __toString(): string

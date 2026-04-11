@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Detail;
 
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
@@ -14,6 +16,11 @@ final readonly class PaymentPriority extends Line
 {
     public const int MAX_LENGTH = 1;
 
+    /**
+     * @throws InvalidLengthException
+     * @throws InvalidCharacterException
+     * @throws InvalidValueException
+     */
     public function __construct(public string $value = Priority::Regular->value)
     {
         if (!in_array($value, array_column(Priority::cases(), 'value'), true)) {

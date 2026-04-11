@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Detail;
 
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
 
@@ -16,6 +17,7 @@ final readonly class PaymentReference extends Line
 
     /**
      * @throws InvalidLengthException
+     * @throws InvalidCharacterException
      */
     public function __construct(
         public string $value,

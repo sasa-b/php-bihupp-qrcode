@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Recipient;
 
+use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 use Sco\BihuppQRCode\PaymentInstruction\Line;
@@ -25,8 +26,9 @@ final readonly class PhoneNumber extends Line
     public string $value;
 
     /**
-     * @throws InvalidValueException  if the phone number does not start with +
+     * @throws InvalidValueException     if the phone number does not start with +
      * @throws InvalidLengthException
+     * @throws InvalidCharacterException
      */
     public function __construct(string $value)
     {
