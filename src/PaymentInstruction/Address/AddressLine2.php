@@ -20,6 +20,6 @@ final readonly class AddressLine2 extends Line
 
     public static function from(string $postcode, string $town): self
     {
-        return new self("$postcode $town");
+        return new self(trim("$postcode $town"));
     }
 }

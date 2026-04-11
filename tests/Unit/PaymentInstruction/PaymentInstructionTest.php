@@ -25,7 +25,7 @@ use Sco\BihuppQRCode\PaymentInstruction\PublicRevenue\PaymentType;
 use Sco\BihuppQRCode\PaymentInstruction\PublicRevenue\RevenueType;
 use Sco\BihuppQRCode\PaymentInstruction\PublicRevenue\SenderTaxId;
 use Sco\BihuppQRCode\PaymentInstruction\PublicRevenue\TaxPeriodDate;
-use Sco\BihuppQRCode\PaymentInstruction\PublicRevenueInstruction;
+use Sco\BihuppQRCode\PaymentInstruction\PublicRevenue;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\Recipient;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\RecipientAccount;
 
@@ -98,7 +98,7 @@ final class PaymentInstructionTest extends TestCase
             purpose: new PaymentPurpose('Tax payment'),
             reference: null,
             amount: new Amount('500000'),
-            publicRevenue: new PublicRevenueInstruction(
+            publicRevenue: new PublicRevenue(
                 senderTaxId: new SenderTaxId('0101990123456'),
                 paymentType: new PaymentType('3'),
                 revenueType: new RevenueType('712115'),
@@ -157,7 +157,7 @@ final class PaymentInstructionTest extends TestCase
     }
 
     #[Test]
-    public function it_converts_real_world_water_bill_to_expected_string(): void
+    public function it_converts_water_bill_example_with_sender_from_standard_doc_to_expected_string(): void
     {
         $instruction = new PaymentInstruction(
             sender: new Sender(
@@ -187,6 +187,61 @@ final class PaymentInstructionTest extends TestCase
             "DENISA KOVAČEVIĆ-BATIĆ\n",          // sender name
             "ŠARAJEVSKA ULICA 43\n",             // sender address line 1
             "78000 BANJA LUKA\n",                // sender address line 2
+            "\n",                                // sender phone (empty)
+            "Troškovi vode za 6. mjesec\n",      // purpose
+            "1445-26554-11222\n",                // reference
+            "VODOVOD MOSTAR\n",                  // recipient name
+            "ALEKSE ŠANTIĆA\n",                 // recipient address line 1
+            "88000 MOSTAR\n",                    // recipient address line 2
+            "1995320021237616\n",               // sender account
+            "1010000236542719\n",               // recipient account
+            "000000000009862\n",                // amount (9862 pennies = 98.62 BAM)
+            "BAM\n",                             // currency
+            "N\n",                               // payment priority (urgent)
+            "\n",                                // sender tax id (empty)
+            "\n",                                // payment type (empty)
+            "\n",                                // revenue type (empty)
+            "\n",                                // tax period start date (empty)
+            "\n",                                // tax period end date (empty)
+            "\n",                                // municipal code (empty)
+            "\n",                                // budget org code (empty)
+            "\n",                                // payment reference (empty)
+        ]);
+
+        $this->assertSame($expected, (string) $instruction);
+    }
+
+    #[Test]
+    public function it_converts_water_bill_example_without_sender_from_standard_doc_to_expected_string(): void
+    {
+        $instruction = new PaymentInstruction(
+            sender: new Sender(
+                name: new Name(''),
+                address: new Address(
+                    addressLine1: AddressLine1::from('', ''),
+                    addressLine2: AddressLine2::from('', ''),
+                ),
+                account: new Account('1995320021237616'),
+            ),
+            recipient: new Recipient(
+                name: Name::business('VODOVOD MOSTAR'),
+                address: new Address(
+                    addressLine1: AddressLine1::from('ALEKSE ŠANTIĆA', ''),
+                    addressLine2: AddressLine2::from('88000', 'MOSTAR'),
+                ),
+                account: RecipientAccount::from(new Account('1010000236542719')),
+            ),
+            purpose: new PaymentPurpose('Troškovi vode za 6. mjesec'),
+            reference: new PaymentReference('1445-26554-11222'),
+            amount: new Amount('9862'),
+            paymentPriority: PaymentPriority::urgent(),
+        );
+
+        $expected = implode('', [
+            "BIHUPP10\n",                        // version
+            "\n",                                // sender name (empty — bank fills from logged-in user)
+            "\n",                                // sender address line 1 (empty)
+            "\n",                                // sender address line 2 (empty)
             "\n",                                // sender phone (empty)
             "Troškovi vode za 6. mjesec\n",      // purpose
             "1445-26554-11222\n",                // reference

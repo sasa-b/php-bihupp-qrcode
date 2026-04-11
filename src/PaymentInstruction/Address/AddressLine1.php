@@ -20,6 +20,6 @@ final readonly class AddressLine1 extends Line
 
     public static function from(string $street, string $number): self
     {
-        return new self($number !== '' ? "$street $number" : $street);
+        return new self(trim("$street $number"));
     }
 }

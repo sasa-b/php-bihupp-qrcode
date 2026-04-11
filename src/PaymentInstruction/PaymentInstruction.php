@@ -30,7 +30,7 @@ final readonly class PaymentInstruction implements \Stringable
         public Amount $amount,
         public Currency $currency = new Currency(),
         public PaymentPriority $paymentPriority = new PaymentPriority(),
-        public ?PublicRevenueInstruction $publicRevenue = null,
+        public ?PublicRevenue $publicRevenue = null,
         public Version $version = new Version(),
     ) {}
 
