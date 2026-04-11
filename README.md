@@ -18,7 +18,8 @@ BIHUPP (_Bosansko-Hercegovački Unutrašnji Platni Promet_) defines a structured
   - [Reading the payload string](#reading-the-payload-string)
 - [QR code output](#qr-code-output)
   - [SVG (default)](#svg-default)
-  - [PNG (base64-encoded)](#png-base64-encoded)
+  - [PNG / JPEG — GD extension](#png--jpeg--gd-extension)
+  - [PNG / JPEG — Imagick extension](#png--jpeg--imagick-extension)
   - [Base64 data-URI link](#base64-data-uri-link)
   - [Custom renderer](#custom-renderer)
 - [Field reference](#field-reference)
@@ -218,34 +219,42 @@ var_dump($instruction->lines());
 $svg = $instruction->toQRCode(); // returns SVG XML string
 ```
 
-### PNG (base64-encoded)
+### PNG / JPEG — GD extension
+
+Requires the [`gd`](https://www.php.net/manual/en/book.image.php) extension. Throws `MissingImageExtension` if it is not loaded.
 
 ```php
-use Sco\BihuppQRCode\QRCode\ChillerlanQRCodeRenderer;
-use Sco\BihuppQRCode\QRCode\Image;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\GDPng;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\GDJpeg;
 
-$png = $instruction->toQRCode(renderStrategy: new Image());
-
-echo $png; // returns PNG binary string
+$png  = $instruction->toQRCode(renderStrategy: new GDPng());  // PNG binary
+$jpeg = $instruction->toQRCode(renderStrategy: new GDJpeg()); // JPEG binary
 ```
 
+### PNG / JPEG — Imagick extension
+
+Requires the [`imagick`](https://www.php.net/manual/en/book.imagick.php) extension. Throws `MissingImageExtension` if it is not loaded.
+
 ```php
-use Sco\BihuppQRCode\QRCode\ChillerlanQRCodeRenderer;
-use Sco\BihuppQRCode\QRCode\Image;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\ImagickPng;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\ImagickJpeg;
 
-$jpg = $instruction->toQRCode(renderStrategy: new Jpg());
-
-echo $jpg; // returns JPG binary string
+$png  = $instruction->toQRCode(renderStrategy: new ImagickPng());  // PNG binary
+$jpeg = $instruction->toQRCode(renderStrategy: new ImagickJpeg()); // JPEG binary
 ```
 
 ### Base64 data-URI link
 
+`Base64Link` wraps any `ImageRenderStrategy` and returns a base64 data URI. Defaults to SVG when no strategy is passed.
+
 ```php
 use Sco\BihuppQRCode\QRCode\RenderStrategy\Base64Link;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\GDPng;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\ImagickJpeg;
 
-$dataUri = $instruction->toQRCode(renderStrategy: new Base64Link());
-
-echo $dataUri; // data:image/svg+xml;base64,PHN2...
+$svgUri  = $instruction->toQRCode(renderStrategy: new Base64Link());                  // data:image/svg+xml;base64,...
+$pngUri  = $instruction->toQRCode(renderStrategy: new Base64Link(new GDPng()));       // data:image/png;base64,...
+$jpegUri = $instruction->toQRCode(renderStrategy: new Base64Link(new ImagickJpeg())); // data:image/jpeg;base64,...
 ```
 
 ### Custom renderer
@@ -256,6 +265,7 @@ Implement `Renderer` and `RenderStrategy` to integrate any QR library or add cus
 use Sco\BihuppQRCode\PaymentInstruction\PaymentInstruction;
 use Sco\BihuppQRCode\QRCode\Renderer;
 use Sco\BihuppQRCode\QRCode\RenderStrategy;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\Svg;
 
 final readonly class MyRenderer implements Renderer
 {
@@ -344,13 +354,14 @@ PaymentPriority::from(Priority::Urgent);
 
 ## Exception handling
 
-All validation runs at construction time. Three exception types extend `DomainException`:
+All validation runs at construction time. Exception types extend `BihuppQRCodeException`.:
 
 | Exception | Thrown when |
 |---|---|
 | `InvalidLengthException` | Value exceeds the field's maximum character length |
 | `InvalidCharacterException` | Value contains characters outside the allowed set |
 | `InvalidValueException` | Value violates a field-specific format rule (digits-only, `+` prefix, etc.) |
+| `MissingImageExtension` | A GD or Imagick render strategy is used but the required PHP extension is not loaded |
 
 Catch a specific type, or use `BihuppQRCodeException` to handle any library exception in one clause:
 
