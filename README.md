@@ -1,8 +1,19 @@
 # php-bihupp-qrcode
 
+
+PHP biblioteka koja implementira BIHUPP10 standard QR koda za instrukcije bankovnog plaćanja u Bosni i Hercegovini.
+
+BIHUPP (Bosansko-hercegovački unutrašnji platni promet) definiše strukturirani tekstualni sadržaj koji se može enkodirati u obliku QR koda, koji banke skeniraju kako bi automatski popunile naloge za plaćanje. Ovaj format je ustanovljen od strane [Udruženja Banaka Bosne i Hercegovine](https://ubbih.ba/).
+
+Dodavanje QR koda u definisanom formatu na računima omogućava krajnjim korisnicima plaćanje pomoću skeniranja QR koda kroz njihovo mobilno bankarstvo.
+
+---------------------------------------------------------
+
 PHP library implementing the **BIHUPP** QR Code standard for bank payment instructions in Bosnia and Herzegovina.
 
-BIHUPP (_Bosansko-Hercegovački Unutrašnji Platni Promet_) defines a structured text payload that banks scan to pre-fill payment forms. This library encodes that payload and renders it as a QR code.
+BIHUPP (_Bosansko-Hercegovački Unutrašnji Platni Promet_) defines a structured text payload that can be encoded as a QR code that banks scan to pre-fill payment forms. This format was established by the [Association of Banks of Bosnia and Herzegovina](https://ubbih.ba/).
+
+Adding a QR code in the defined format to invoices enables end-users to make payments by scanning the QR code through their mobile banking app.
 
 ## Table of contents
 
