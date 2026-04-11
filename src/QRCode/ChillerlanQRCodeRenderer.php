@@ -23,9 +23,7 @@ final readonly class ChillerlanQRCodeRenderer implements Renderer
 
     public function render(PaymentInstruction $data, RenderStrategy $strategy): string
     {
-        $this->qrCode->setOptions([
-            'outputBase64' => !$strategy instanceof Svg,
-        ]);
+        $strategy->apply($this->qrCode);
 
         return $this->qrCode->render((string) $data);
     }

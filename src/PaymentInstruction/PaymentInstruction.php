@@ -14,7 +14,7 @@ use Sco\BihuppQRCode\PaymentInstruction\Recipient\Recipient;
 use Sco\BihuppQRCode\QRCode\ChillerlanQRCodeRenderer;
 use Sco\BihuppQRCode\QRCode\Renderer;
 use Sco\BihuppQRCode\QRCode\RenderStrategy;
-use Sco\BihuppQRCode\QRCode\Svg;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\Svg;
 
 /**
  * Naloga za plaćanje u bankama u unutrašnjem platnom promet

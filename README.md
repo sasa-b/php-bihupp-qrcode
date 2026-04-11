@@ -2,7 +2,34 @@
 
 PHP library implementing the **BIHUPP** QR Code standard for bank payment instructions in Bosnia and Herzegovina.
 
-BIHUPP (_Bosanski i Hercegovački Unutrašnji Platni Promet_) defines a structured text payload that banks scan to pre-fill payment forms. This library encodes that payload and renders it as a QR code.
+BIHUPP (_Bosansko-Hercegovački Unutrašnji Platni Promet_) defines a structured text payload that banks scan to pre-fill payment forms. This library encodes that payload and renders it as a QR code.
+
+## Table of contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [Usage](#usage)
+  - [Standard bank transfer](#standard-bank-transfer)
+  - [Omitting the sender](#omitting-the-sender)
+  - [Multiple recipient accounts](#multiple-recipient-accounts)
+  - [Including a sender phone number](#including-a-sender-phone-number)
+  - [Public revenue payment](#public-revenue-payment-tax-fees-etc)
+  - [Reading the payload string](#reading-the-payload-string)
+- [QR code output](#qr-code-output)
+  - [SVG (default)](#svg-default)
+  - [PNG (base64-encoded)](#png-base64-encoded)
+  - [Base64 data-URI link](#base64-data-uri-link)
+  - [Custom renderer](#custom-renderer)
+- [Field reference](#field-reference)
+  - [`PaymentInstruction` constructor](#paymentinstruction-constructor)
+  - [Field constraints](#field-constraints)
+  - [Allowed character set](#allowed-character-set)
+- [Amount handling](#amount-handling)
+- [Payment priority](#payment-priority)
+- [Exception handling](#exception-handling)
+- [Contribute](#contribute)
+- [License](#license)
 
 ## Requirements
 
@@ -43,8 +70,8 @@ $instruction = new PaymentInstruction(
     recipient: new Recipient(
         name: Name::business('Vodovod d.o.o.'),
         address: new Address(
-            addressLine1: AddressLine1::from('Titova', '1'),
-            addressLine2: AddressLine2::from('71000', 'Sarajevo'),
+            addressLine1: AddressLine1::from('Kralja Petra I Karađorđevića', '97'),
+            addressLine2: AddressLine2::from('78000', 'Banja Luka'),
         ),
         account: RecipientAccount::from(new Account('9876543210987654')),
     ),
@@ -139,16 +166,16 @@ $instruction = new PaymentInstruction(
     sender: new Sender(
         name: Name::business('Example Company d.o.o.'),
         address: new Address(
-            addressLine1: AddressLine1::from('Zmaja od Bosne', '75'),
-            addressLine2: AddressLine2::from('71000', 'Sarajevo'),
+            addressLine1: AddressLine1::from('Veselina Masleše', '20'),
+            addressLine2: AddressLine2::from('78000', 'Banja Luka'),
         ),
         account: new Account('1234567890123456'),
     ),
     recipient: new Recipient(
         name: new Name('Trezor'),
         address: new Address(
-            addressLine1: AddressLine1::from('Musala', '9'),
-            addressLine2: AddressLine2::from('71000', 'Sarajevo'),
+            addressLine1: AddressLine1::from('Aleja Svetog Save', '13'),
+            addressLine2: AddressLine2::from('78000', 'Banja Luka'),
         ),
         account: RecipientAccount::from(new Account('1610000010680092')),
     ),
@@ -195,16 +222,16 @@ $svg = $instruction->toQRCode(); // returns SVG XML string
 
 ```php
 use Sco\BihuppQRCode\QRCode\ChillerlanQRCodeRenderer;
-use Sco\BihuppQRCode\QRCode\Png;
+use Sco\BihuppQRCode\QRCode\Image;
 
-$png = $instruction->toQRCode(renderStrategy: new Png());
+$png = $instruction->toQRCode(renderStrategy: new Image());
 
-echo $base64; // returns PNG binary string
+echo $png; // returns PNG binary string
 ```
 
 ```php
 use Sco\BihuppQRCode\QRCode\ChillerlanQRCodeRenderer;
-use Sco\BihuppQRCode\QRCode\Png;
+use Sco\BihuppQRCode\QRCode\Image;
 
 $jpg = $instruction->toQRCode(renderStrategy: new Jpg());
 
@@ -214,7 +241,7 @@ echo $jpg; // returns JPG binary string
 ### Base64 data-URI link
 
 ```php
-use Sco\BihuppQRCode\QRCode\Base64Link;
+use Sco\BihuppQRCode\QRCode\RenderStrategy\Base64Link;
 
 $dataUri = $instruction->toQRCode(renderStrategy: new Base64Link());
 
@@ -254,7 +281,7 @@ $svg = $instruction->toQRCode(renderer: new MyRenderer(), renderStrategy: new Sv
 | `reference` | `PaymentReference\|null` | No       | —                           | Pass `null` to omit                 |
 | `amount` | `Amount` | Yes      | —                           | Integer in pennies (pfeninga)       |
 | `currency` | `Currency` | Yes       | `BAM`                       | Hardcoded to BAM by standard        |
-| `paymentPriority` | `PaymentPriority` | Yes       | `D` (urgent), `N` (regular) |                                     |
+| `paymentPriority` | `PaymentPriority` | No        | `N` (regular)               |                                     |
 | `publicRevenue` | `PublicRevenue\|null` | No       | `null`                      | Required only for tax/fee payments  |
 | `version` | `Version` | Yes      | `BIHUPP10`                  |                                     |
 
@@ -311,7 +338,7 @@ new Amount('9862');            // same, from a string
 
 ```php
 PaymentPriority::regular();    // 'N' — standard processing
-PaymentPriority::urgent();     // 'D' — same-day/priority processing
+PaymentPriority::urgent();     // 'D' — urgent processing
 PaymentPriority::from(Priority::Urgent);
 ```
 
@@ -325,7 +352,10 @@ All validation runs at construction time. Three exception types extend `DomainEx
 | `InvalidCharacterException` | Value contains characters outside the allowed set |
 | `InvalidValueException` | Value violates a field-specific format rule (digits-only, `+` prefix, etc.) |
 
+Catch a specific type, or use `BihuppQRCodeException` to handle any library exception in one clause:
+
 ```php
+use Sco\BihuppQRCode\BihuppQRCodeException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidLengthException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidCharacterException;
 use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
@@ -333,22 +363,22 @@ use Sco\BihuppQRCode\PaymentInstruction\Exception\InvalidValueException;
 try {
     $name = new Name(str_repeat('A', 51)); // exceeds 50-char limit
 } catch (InvalidLengthException $e) {
-    // handle
+    // handle length violation specifically
+} catch (BihuppQRCodeException $e) {
+    // handle any other library exception
 }
 ```
 
-## Testing
+## Contribute
+
+Run code quality check before raising PRs. 
 
 ```bash
-composer install
-./vendor/bin/phpunit
+composer c:q # runs php-cs-fixer and PHPStan
 ```
 
-Code quality:
-
-```bash
-composer run code:quality   # runs php-cs-fixer and PHPStan
-```
+### TODO
+[] add programmatic reading of QRCodes
 
 ## License
 

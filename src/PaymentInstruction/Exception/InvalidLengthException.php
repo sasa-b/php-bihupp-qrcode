@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\PaymentInstruction\Exception;
 
-final class InvalidLengthException extends \DomainException
+use Sco\BihuppQRCode\BihuppQRCodeException;
+
+final class InvalidLengthException extends BihuppQRCodeException
 {
     public function __construct(string $line, int $maxLength, int $actualLength)
     {

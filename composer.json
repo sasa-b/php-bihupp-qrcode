@@ -2,7 +2,7 @@
     "name": "sasa-b/php-bihupp-qrcode",
     "description": "Library implementing the BIHUPP QR Code standard for representing bank payment instructions as QR Codes",
     "type": "library",
-    "keywords": ["bihupp", "qr code", "payment instruction", "bank transfer", "bosnia", "hercegovina"],
+    "keywords": ["bihupp", "bihupp10", "qr code", "qrcode", "payment instruction", "bank transfer", "bosnia", "hercegovina", "platni promet"],
     "version": "0.1.0",
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -27,7 +27,10 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "authors": [
         {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\QRCode;
 
-final readonly class Png
+enum ImageFormat
 {
+    case SVG;
+    case PNG;
+    case JPEG;
 }

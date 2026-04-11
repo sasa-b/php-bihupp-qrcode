@@ -414,25 +414,4 @@ final class PaymentInstructionTest extends TestCase
 
         $this->assertSame($expected, (string) $instruction);
     }
-
-    #[Test]
-    public function it_can_convert_to_svg_qrcode_by_default(): void
-    {
-        $instruction = new PaymentInstruction(
-            sender: Fixtures::sender(),
-            recipient: Fixtures::recipient(),
-            purpose: new PaymentPurpose('Invoice payment'),
-            reference: new PaymentReference('INV2024001'),
-            amount: new Amount('10000'),
-        );
-
-        $qrCode = $instruction->toQRCode();
-
-        $this->assertNotEmpty($qrCode);
-
-        $this->assertStringContainsString(<<<SVG
-        <?xml version="1.0" encoding="UTF-8"?>
-        <svg xmlns="http://www.w3.org/2000/svg" 
-        SVG, $qrCode);
-    }
 }

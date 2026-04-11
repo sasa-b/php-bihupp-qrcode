@@ -6,7 +6,7 @@ namespace Sco\BihuppQRCode\QRCode;
 
 use chillerlan\QRCode\QRCode;
 
-interface RenderStrategy
+interface ImageRenderStrategy extends RenderStrategy
 {
     public function apply(QRCode $qrcode): void;
 }
