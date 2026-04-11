@@ -7,14 +7,14 @@ namespace Sco\BihuppQRCode\Tests\Unit\PaymentInstruction\Detail;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPriority;
-use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPriorityLine;
+use Sco\BihuppQRCode\PaymentInstruction\Detail\Priority;
 
 final class PaymentTypeLineTest extends TestCase
 {
     #[Test]
     public function it_creates_with_valid_default_priority(): void
     {
-        $line = new PaymentPriorityLine();
+        $line = new PaymentPriority();
 
         $this->assertSame('D', $line->value);
     }
@@ -22,7 +22,7 @@ final class PaymentTypeLineTest extends TestCase
     #[Test]
     public function it_creates_from_regular_payment_type(): void
     {
-        $paymentTypeLine = PaymentPriorityLine::from(PaymentPriority::Regular);
+        $paymentTypeLine = PaymentPriority::from(Priority::Regular);
 
         $this->assertSame('D', $paymentTypeLine->value);
     }
@@ -30,7 +30,7 @@ final class PaymentTypeLineTest extends TestCase
     #[Test]
     public function it_creates_from_urgent_payment_type(): void
     {
-        $paymentTypeLine = PaymentPriorityLine::from(PaymentPriority::Urgent);
+        $paymentTypeLine = PaymentPriority::from(Priority::Urgent);
 
         $this->assertSame('N', $paymentTypeLine->value);
     }
@@ -38,7 +38,7 @@ final class PaymentTypeLineTest extends TestCase
     #[Test]
     public function it_converts_to_string_that_ends_with_lf_char(): void
     {
-        $paymentTypeLine = PaymentPriorityLine::from(PaymentPriority::Urgent);
+        $paymentTypeLine = PaymentPriority::from(Priority::Urgent);
 
         $this->assertSame("N\n", (string) $paymentTypeLine);
     }

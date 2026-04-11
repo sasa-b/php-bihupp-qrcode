@@ -6,11 +6,15 @@ namespace Sco\BihuppQRCode\PaymentInstruction;
 
 use Sco\BihuppQRCode\PaymentInstruction\Detail\Amount;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\Currency;
-use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPriorityLine;
+use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPriority;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentPurpose;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\PaymentReference;
 use Sco\BihuppQRCode\PaymentInstruction\Detail\Sender;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\Recipient;
+use Sco\BihuppQRCode\QRCode\ChillerlanQRCodeRenderer;
+use Sco\BihuppQRCode\QRCode\Renderer;
+use Sco\BihuppQRCode\QRCode\RenderStrategy;
+use Sco\BihuppQRCode\QRCode\Svg;
 
 /**
  * Naloga za plaćanje u bankama u unutrašnjem platnom promet
@@ -25,7 +29,7 @@ final readonly class PaymentInstruction implements \Stringable
         public ?PaymentReference $reference,
         public Amount $amount,
         public Currency $currency = new Currency(),
-        public PaymentPriorityLine $paymentPriority = new PaymentPriorityLine(),
+        public PaymentPriority $paymentPriority = new PaymentPriority(),
         public ?PublicRevenueInstruction $publicRevenue = null,
         public Version $version = new Version(),
     ) {}
@@ -74,5 +78,10 @@ final readonly class PaymentInstruction implements \Stringable
     public function __toString(): string
     {
         return implode('', $this->lines());
+    }
+
+    public function toQRCode(Renderer $renderer = new ChillerlanQRCodeRenderer(), RenderStrategy $renderStrategy = new Svg()): string
+    {
+        return $renderer->render($this, $renderStrategy);
     }
 }
