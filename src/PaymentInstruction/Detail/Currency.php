@@ -17,7 +17,9 @@ final readonly class Currency extends Line
 
     private const string BAM = 'BAM';
 
-    public function __construct() {}
+    public function __construct(
+        public string $value = self::BAM,
+    ) {}
 
     #[\Override]
     public function __toString(): string

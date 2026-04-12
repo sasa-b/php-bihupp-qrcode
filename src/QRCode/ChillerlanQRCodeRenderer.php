@@ -23,8 +23,10 @@ final readonly class ChillerlanQRCodeRenderer implements Renderer
 
     public function render(PaymentInstruction $data, RenderStrategy $strategy): string
     {
-        $strategy->apply($this->qrCode);
+        $options = new QROptions();
 
-        return $this->qrCode->render((string) $data);
+        $strategy->apply($options);
+
+        return $this->qrCode->setOptions($options)->render((string) $data);
     }
 }

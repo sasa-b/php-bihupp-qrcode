@@ -45,7 +45,7 @@ final class PaymentInstructionTest extends TestCase
 
         $this->assertSame('Invoice payment', $instruction->purpose->value);
         $this->assertSame('000000000010000', $instruction->amount->value);
-        $this->assertSame("BAM\n", (string) $instruction->currency);
+        $this->assertSame('BAM', $instruction->currency->value);
         $this->assertSame('N', $instruction->paymentPriority->value);
         $this->assertNull($instruction->publicRevenue);
     }

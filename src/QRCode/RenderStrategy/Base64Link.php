@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sco\BihuppQRCode\QRCode\RenderStrategy;
 
-use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Sco\BihuppQRCode\QRCode\ImageRenderStrategy;
 use Sco\BihuppQRCode\QRCode\RenderStrategy;
 
@@ -12,12 +12,10 @@ final readonly class Base64Link implements RenderStrategy
 {
     public function __construct(public ImageRenderStrategy $imageRenderStrategy = new Svg()) {}
 
-    public function apply(QRCode $qrcode): void
+    public function apply(QROptions $options): void
     {
-        $this->imageRenderStrategy->apply($qrcode);
-
-        $qrcode->setOptions([
-            'outputBase64' => true,
-        ]);
+        $this->imageRenderStrategy->apply($options);
+        // Override
+        $options->outputBase64 = true;
     }
 }

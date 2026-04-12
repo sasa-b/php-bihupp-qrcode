@@ -61,7 +61,8 @@ final class Base64LinkRenderStrategyTest extends TestCase
 
         $output = $this->instruction->toQRCode(renderStrategy: new Base64Link(new GDJpeg()));
 
-        $this->assertStringStartsWith('data:image/jpeg;base64,', $output);
+        // GD library sets this to jpg for some reason
+        $this->assertStringStartsWith('data:image/jpg;base64,', $output);
     }
 
     #[Test]
