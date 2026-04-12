@@ -1,6 +1,6 @@
 # php-bihupp-qrcode
 
-<p style="text-align: center; width: 40mm; height: 40mm;">
+<p style="text-align: center">
   <img src="doc/test.svg" alt="BIHUPP QR code example" width="250"/>
 </p>
 
