@@ -76,10 +76,13 @@ final class Reader
 
     private static function parse(string $payload): Lines
     {
-        $lines = [new Version()];
+        $lines = [];
 
-        foreach (explode(Line::END, $payload) as $i => $line) {
+        $textRows = explode(Line::END, $payload);
+        for ($i = 0; $i < 23; ++$i) {
+            $line = trim($textRows[$i] ?? '');
             $lines[] = match ($i) {
+                0 => new Version(),
                 1, 7 => $line === '' ? new EmptyLine() : new Name($line),
                 2, 8 => $line === '' ? new EmptyLine() : new AddressLine1($line),
                 3, 9 => $line === '' ? new EmptyLine() : new AddressLine2($line),
@@ -100,7 +103,6 @@ final class Reader
                 20 => $line === '' ? new EmptyLine() : new MunicipalCode($line),
                 21 => $line === '' ? new EmptyLine() : new BudgetOrgCode($line),
                 22 => $line === '' ? new EmptyLine() : new PublicRevenuePaymentReference($line),
-                default => new EmptyLine(),
             };
         }
 
