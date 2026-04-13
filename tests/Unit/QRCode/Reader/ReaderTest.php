@@ -7,8 +7,10 @@ namespace Sco\BihuppQRCode\Tests\Unit\QRCode\Reader;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sco\BihuppQRCode\QRCode\Reader;
+use Sco\BihuppQRCode\QRCode\Reader\FailureScanResult;
 use Sco\BihuppQRCode\QRCode\Reader\SuccessScanResult;
 use Sco\BihuppQRCode\QRCode\ReadSource\Filepath;
+use Zxing\NotFoundException;
 
 final class ReaderTest extends TestCase
 {
@@ -70,5 +72,15 @@ final class ReaderTest extends TestCase
         $this->assertSame('BAM', $instruction->currency->value);
         $this->assertSame('N', $instruction->paymentPriority->value);
         $this->assertNull($instruction->publicRevenue);
+    }
+
+    #[Test]
+    public function it_returns_a_failure_result_when_the_image_contains_no_qr_code(): void
+    {
+        $result = Reader::read(new Filepath(__DIR__.'/empty_example.png'));
+
+        $this->assertInstanceOf(FailureScanResult::class, $result);
+        $this->assertInstanceOf(NotFoundException::class, $result->error);
+        $this->assertNull($result->rawPayload);
     }
 }
