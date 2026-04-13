@@ -8,8 +8,18 @@ use Sco\BihuppQRCode\BihuppQRCodeException;
 
 final class InvalidLengthException extends BihuppQRCodeException
 {
-    public function __construct(string $line, int $maxLength, int $actualLength)
+    private function __construct(string $message)
     {
-        parent::__construct("$line exceeds maximum length of $maxLength characters, got: $actualLength.");
+        parent::__construct($message);
+    }
+
+    public static function max(string $line, int $maxLength, int $actualLength): self
+    {
+        return new self("$line exceeds maximum length of $maxLength characters, got: $actualLength.");
+    }
+
+    public static function min(string $line, int $minLength, int $actualLength): self
+    {
+        return new self("$line must be at least $minLength characters long, got $actualLength.");
     }
 }

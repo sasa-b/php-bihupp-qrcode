@@ -23,4 +23,9 @@ final readonly class BudgetOrgCode extends Line
             throw new InvalidValueException("Budget organization code must be a 7 digits integer, got: $value.");
         }
     }
+
+    public static function empty(): self
+    {
+        return new self(str_pad('0', self::MAX_LENGTH, '0'));
+    }
 }

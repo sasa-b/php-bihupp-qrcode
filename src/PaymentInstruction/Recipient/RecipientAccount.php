@@ -17,21 +17,14 @@ final readonly class RecipientAccount extends Line
 {
     public const int MAX_LENGTH = 339;
 
-    /**
-     * @throws InvalidLengthException
-     * @throws InvalidCharacterException
-     */
-    private function __construct(public string $value)
-    {
-        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
-    }
+    public string $value;
 
     /**
      * @throws InvalidLengthException
      * @throws InvalidCharacterException
      * @throws InvalidValueException
      */
-    public static function from(Account ...$account): self
+    public function __construct(Account ...$account)
     {
         if (count($account) === 0) {
             throw new InvalidValueException('At least one account is required.');
@@ -41,6 +34,10 @@ final readonly class RecipientAccount extends Line
             throw new InvalidValueException('Maximum of 20 accounts is allowed.');
         }
 
-        return new self(implode(',', array_map(static fn (Account $a) => $a->value, $account)));
+        $value = implode(',', array_map(static fn (Account $a) => $a->value, $account));
+
+        self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
+
+        $this->value = $value;
     }
 }

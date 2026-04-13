@@ -27,7 +27,7 @@ abstract readonly class Line implements \Stringable
      * @throws InvalidValueException
      * @throws InvalidCharacterException
      */
-    protected static function validateLengthAndChars(string $class, string $value, int $maxLength): void
+    protected static function validateLengthAndChars(string $class, string $value, int $maxLength, int $minLength = 0): void
     {
         $length = strlen($value);
 
@@ -38,7 +38,11 @@ abstract readonly class Line implements \Stringable
         })($class);
 
         if ($length > $maxLength) {
-            throw new InvalidLengthException($line, $maxLength, $length);
+            throw InvalidLengthException::max($line, $maxLength, $length);
+        }
+
+        if ($length < $minLength) {
+            throw InvalidLengthException::min($line, $minLength, $length);
         }
 
         if (preg_match(self::ALLOWED_CHARS_REGEXP, $value) === 1) {

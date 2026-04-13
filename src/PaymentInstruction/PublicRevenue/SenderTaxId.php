@@ -29,4 +29,9 @@ final readonly class SenderTaxId extends Line
 
         self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
     }
+
+    public static function empty(): self
+    {
+        return new self(str_pad('0', self::MAX_LENGTH, '0'));
+    }
 }

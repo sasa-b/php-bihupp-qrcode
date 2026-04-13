@@ -34,13 +34,10 @@ final readonly class PaymentInstruction implements \Stringable
         public Version $version = new Version(),
     ) {}
 
-    /**
-     * @return array<int,Line>
-     */
-    public function lines(): array
+    public function lines(): Lines
     {
         // Order of these is important and should not change
-        return [
+        return new Lines(
             $this->version,
 
             $this->sender?->name ?: new EmptyLine(),
@@ -72,12 +69,12 @@ final readonly class PaymentInstruction implements \Stringable
                 $this->publicRevenue?->budgetCode ?: new EmptyLine(),
                 $this->publicRevenue?->paymentReference ?: new EmptyLine(),
             ],
-        ];
+        );
     }
 
     public function __toString(): string
     {
-        return implode('', $this->lines());
+        return $this->lines()->implode();
     }
 
     public function toQRCode(Renderer $renderer = new ChillerlanQRCodeRenderer(), RenderStrategy $renderStrategy = new Svg()): string

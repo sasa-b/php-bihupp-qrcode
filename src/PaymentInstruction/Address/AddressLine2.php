@@ -19,7 +19,7 @@ final readonly class AddressLine2 extends Line
      * @throws InvalidLengthException
      * @throws InvalidCharacterException
      */
-    private function __construct(public string $value)
+    public function __construct(public string $value)
     {
         self::validateLengthAndChars(__CLASS__, $value, self::MAX_LENGTH);
     }

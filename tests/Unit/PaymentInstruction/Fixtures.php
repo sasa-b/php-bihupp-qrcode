@@ -35,7 +35,7 @@ final class Fixtures
                 addressLine1: AddressLine1::from('Titova', '1'),
                 addressLine2: AddressLine2::from('71000', 'Sarajevo'),
             ),
-            account: RecipientAccount::from(new Account('9876543210987654')),
+            account: new RecipientAccount(new Account('9876543210987654')),
         );
     }
 }

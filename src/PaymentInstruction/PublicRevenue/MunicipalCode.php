@@ -23,4 +23,9 @@ final readonly class MunicipalCode extends Line
             throw new InvalidValueException("Invalid municipal code must be a 3 digit integer, got: $value.");
         }
     }
+
+    public static function empty(): self
+    {
+        return new self(str_pad('0', self::MAX_LENGTH, '0'));
+    }
 }

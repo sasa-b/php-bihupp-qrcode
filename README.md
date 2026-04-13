@@ -92,7 +92,7 @@ $instruction = new PaymentInstruction(
             addressLine1: AddressLine1::from('Kralja Petra I Karađorđevića', '97'),
             addressLine2: AddressLine2::from('78000', 'Banja Luka'),
         ),
-        account: RecipientAccount::from(new Account('9876543210987654')),
+        account: new RecipientAccount(new Account('9876543210987654')),
     ),
     purpose: new PaymentPurpose('Račun za vodu - april 2024'),
     reference: new PaymentReference('1234-5678-001'),
@@ -144,7 +144,7 @@ Up to 20 recipient accounts can be specified.
 use Sco\BihuppQRCode\PaymentInstruction\Detail\Account;
 use Sco\BihuppQRCode\PaymentInstruction\Recipient\RecipientAccount;
 
-$account = RecipientAccount::from(
+$account = new RecipientAccount(
     new Account('1234567890123456'),
     new Account('9876543210987654'),
     new Account('1111222233334444'),
@@ -196,7 +196,7 @@ $instruction = new PaymentInstruction(
             addressLine1: AddressLine1::from('Aleja Svetog Save', '13'),
             addressLine2: AddressLine2::from('78000', 'Banja Luka'),
         ),
-        account: RecipientAccount::from(new Account('1610000010680092')),
+        account: new RecipientAccount(new Account('1610000010680092')),
     ),
     purpose: new PaymentPurpose('Porez na dobit'),
     reference: null,

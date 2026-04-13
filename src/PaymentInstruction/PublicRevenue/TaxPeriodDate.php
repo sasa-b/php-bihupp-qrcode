@@ -25,4 +25,9 @@ final readonly class TaxPeriodDate extends Line
     {
         return new self($date->format('dmY'));
     }
+
+    public static function empty(): self
+    {
+        return new self('');
+    }
 }
