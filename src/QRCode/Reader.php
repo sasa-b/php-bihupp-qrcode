@@ -39,7 +39,7 @@ final class Reader
     /**
      * @param array<string,mixed> $hints
      */
-    public static function read(ReadSource $source, array $hints = [
+    public static function scan(ReadSource $source, array $hints = [
         'CHARACTER_SET' => 'UTF-8',
         'TRY_HARDER' => true,
     ]): ScanResult

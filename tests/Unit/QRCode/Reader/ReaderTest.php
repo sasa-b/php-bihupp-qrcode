@@ -17,7 +17,7 @@ final class ReaderTest extends TestCase
     #[Test]
     public function it_reads_a_payment_instruction_from_a_qr_code_png(): void
     {
-        $result = Reader::read(new Filepath(__DIR__.'/example.png'));
+        $result = Reader::scan(new Filepath(__DIR__.'/example.png'));
 
         $this->assertInstanceOf(SuccessScanResult::class, $result);
 
@@ -77,7 +77,7 @@ final class ReaderTest extends TestCase
     #[Test]
     public function it_returns_a_failure_result_when_the_image_contains_no_qr_code(): void
     {
-        $result = Reader::read(new Filepath(__DIR__.'/empty_example.png'));
+        $result = Reader::scan(new Filepath(__DIR__.'/empty_example.png'));
 
         $this->assertInstanceOf(FailureScanResult::class, $result);
         $this->assertInstanceOf(NotFoundException::class, $result->error);

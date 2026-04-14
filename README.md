@@ -311,10 +311,10 @@ use Sco\BihuppQRCode\QRCode\Reader\SuccessScanResult;
 use Sco\BihuppQRCode\QRCode\Reader\FailureScanResult;
 
 // From a file path
-$result = Reader::read(new Filepath('/path/to/qrcode.png'));
+$result = Reader::scan(new Filepath('/path/to/qrcode.png'));
 
 // From binary image data (e.g. an uploaded file)
-$result = Reader::read(new Blob(file_get_contents('/path/to/qrcode.png')));
+$result = Reader::scan(new Blob(file_get_contents('/path/to/qrcode.png')));
 
 if ($result instanceof SuccessScanResult) {
     $instruction = $result->paymentInstruction; // PaymentInstruction
