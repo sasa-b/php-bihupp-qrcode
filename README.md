@@ -40,6 +40,7 @@ For Kotlin library go to [kotlin-bihupp-qrcode](https://github.com/sasa-b/kotlin
   - [PNG / JPEG — Imagick extension](#png--jpeg--imagick-extension)
   - [Base64 data-URI link](#base64-data-uri-link)
   - [Custom renderer](#custom-renderer)
+- [Reading a QR code](#reading-a-qr-code)
 - [Field reference](#field-reference)
   - [`PaymentInstruction` constructor](#paymentinstruction-constructor)
   - [Field constraints](#field-constraints)
@@ -54,6 +55,7 @@ For Kotlin library go to [kotlin-bihupp-qrcode](https://github.com/sasa-b/kotlin
 
 - PHP 8.3+
 - [`chillerlan/php-qrcode`](https://github.com/chillerlan/php-qrcode) ^6.0
+- [`khanamiryan/qrcode-detector-decoder`](https://github.com/khanamiryan/php-qrcode-detector-decoder) ^2.0 _(required for QR code reading)_
 
 ## Installation
 
@@ -297,6 +299,44 @@ final readonly class MyRenderer implements Renderer
 $svg = $instruction->toQRCode(renderer: new MyRenderer(), renderStrategy: new Svg());
 ```
 
+## Reading a QR code
+
+Use `Reader::read()` to scan a BIHUPP QR code image and reconstruct a `PaymentInstruction` from it. Pass either a file path or a binary blob as the source.
+
+```php
+use Sco\BihuppQRCode\QRCode\Reader;
+use Sco\BihuppQRCode\QRCode\ReadSource\Filepath;
+use Sco\BihuppQRCode\QRCode\ReadSource\Blob;
+use Sco\BihuppQRCode\QRCode\Reader\SuccessScanResult;
+use Sco\BihuppQRCode\QRCode\Reader\FailureScanResult;
+
+// From a file path
+$result = Reader::read(new Filepath('/path/to/qrcode.png'));
+
+// From binary image data (e.g. an uploaded file)
+$result = Reader::read(new Blob(file_get_contents('/path/to/qrcode.png')));
+
+if ($result instanceof SuccessScanResult) {
+    $instruction = $result->paymentInstruction; // PaymentInstruction
+    $raw         = $result->rawPayload;         // raw BIHUPP payload string
+
+    echo $instruction->sender->name->value;     // e.g. "Marko Marković"
+    echo $instruction->amount->value;           // e.g. "000000000010000"
+} else {
+    // $result is FailureScanResult
+    echo $result->error->getMessage();          // reason for failure
+    // $result->rawPayload is null when the image contained no QR code
+}
+```
+
+By default GD is used to decode the image. Pass `ImageExtension::Imagick` as the second constructor argument to use Imagick instead:
+
+```php
+use Sco\BihuppQRCode\QRCode\ImageExtension;
+
+$result = Reader::read(new Filepath('/path/to/qrcode.png', ImageExtension::Imagick));
+```
+
 ## Field reference
 
 ### `PaymentInstruction` constructor
@@ -380,6 +420,7 @@ All validation runs at construction time. Exception types extend `BihuppQRCodeEx
 | `InvalidCharacterException` | Value contains characters outside the allowed set |
 | `InvalidValueException` | Value violates a field-specific format rule (digits-only, `+` prefix, etc.) |
 | `MissingImageExtension` | A GD or Imagick render strategy is used but the required PHP extension is not loaded |
+| `UnknownScanException` | `Reader::read()` could not decode the image and the underlying library returned no specific error |
 
 Catch a specific type, or use `BihuppQRCodeException` to handle any library exception in one clause:
 
@@ -405,9 +446,6 @@ Run code quality check before raising PRs.
 ```bash
 composer c:q # runs php-cs-fixer and PHPStan
 ```
-
-### TODO
-[] add programmatic reading of QRCodes
 
 ## License
 
