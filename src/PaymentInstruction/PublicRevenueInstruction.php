@@ -24,7 +24,7 @@ final readonly class PublicRevenueInstruction
         public TaxPeriodDate $taxPeriodStartDate,
         public TaxPeriodDate $taxPeriodEndDate,
         public MunicipalCode $municipalCode,
-        public BudgetOrgCode $budgetCode,
+        public BudgetOrgCode $budgetOrgCode,
         public PaymentReference $paymentReference,
     ) {}
 }

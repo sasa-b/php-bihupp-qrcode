@@ -106,7 +106,7 @@ final class PaymentInstructionTest extends TestCase
                 taxPeriodStartDate: TaxPeriodDate::fromDate(new \DateTimeImmutable('2024-01-01')),
                 taxPeriodEndDate: TaxPeriodDate::fromDate(new \DateTimeImmutable('2024-12-31')),
                 municipalCode: new MunicipalCode('077'),
-                budgetCode: new BudgetOrgCode('1200200'),
+                budgetOrgCode: new BudgetOrgCode('1200200'),
                 paymentReference: new PublicRevenuePaymentReference('7110578163'),
             ),
         );
@@ -305,7 +305,7 @@ final class PaymentInstructionTest extends TestCase
                 taxPeriodStartDate: TaxPeriodDate::fromDate(new \DateTimeImmutable('2023-05-12')),
                 taxPeriodEndDate: TaxPeriodDate::fromDate(new \DateTimeImmutable('2024-05-12')),
                 municipalCode: new MunicipalCode('123'),
-                budgetCode: new BudgetOrgCode('1234567'),
+                budgetOrgCode: new BudgetOrgCode('1234567'),
                 paymentReference: new PublicRevenuePaymentReference('1234567890'),
             ),
         );
@@ -381,7 +381,7 @@ final class PaymentInstructionTest extends TestCase
                 taxPeriodStartDate: TaxPeriodDate::fromDate(new \DateTimeImmutable('2045-06-01')),
                 taxPeriodEndDate: TaxPeriodDate::fromDate(new \DateTimeImmutable('2099-12-31')),
                 municipalCode: new MunicipalCode('123'),
-                budgetCode: new BudgetOrgCode('1234567'),
+                budgetOrgCode: new BudgetOrgCode('1234567'),
                 paymentReference: new PublicRevenuePaymentReference('0987654321'),
             ),
         );

@@ -210,7 +210,7 @@ $instruction = new PaymentInstruction(
         taxPeriodStartDate: TaxPeriodDate::fromDate(new DateTimeImmutable('2024-01-01')),
         taxPeriodEndDate: TaxPeriodDate::fromDate(new DateTimeImmutable('2024-12-31')),
         municipalCode: new MunicipalCode('077'),
-        budgetCode: new BudgetOrgCode('1200200'),
+        budgetOrgCode: new BudgetOrgCode('1200200'),
         paymentReference: new PublicRevenuePaymentReference('7110578163'),
     ),
 );

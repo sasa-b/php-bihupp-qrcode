@@ -66,7 +66,7 @@ final readonly class PaymentInstruction implements \Stringable
                 $this->publicRevenue?->taxPeriodStartDate ?: new EmptyLine(),
                 $this->publicRevenue?->taxPeriodEndDate ?: new EmptyLine(),
                 $this->publicRevenue?->municipalCode ?: new EmptyLine(),
-                $this->publicRevenue?->budgetCode ?: new EmptyLine(),
+                $this->publicRevenue?->budgetOrgCode ?: new EmptyLine(),
                 $this->publicRevenue?->paymentReference ?: new EmptyLine(),
             ],
         );

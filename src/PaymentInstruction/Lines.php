@@ -122,7 +122,7 @@ final readonly class Lines implements \IteratorAggregate, \ArrayAccess, \Countab
                 taxPeriodStartDate: $this->lines[18] instanceof TaxPeriodDate ? $this->lines[18] : TaxPeriodDate::empty(),
                 taxPeriodEndDate: $this->lines[19] instanceof TaxPeriodDate ? $this->lines[19] : TaxPeriodDate::empty(),
                 municipalCode: $this->lines[20] instanceof MunicipalCode ? $this->lines[20] : MunicipalCode::empty(),
-                budgetCode: $this->lines[21] instanceof BudgetOrgCode ? $this->lines[21] : BudgetOrgCode::empty(),
+                budgetOrgCode: $this->lines[21] instanceof BudgetOrgCode ? $this->lines[21] : BudgetOrgCode::empty(),
                 paymentReference: $this->lines[22] instanceof PublicRevenuePaymentReference ? $this->lines[22] : PublicRevenuePaymentReference::empty(),
             ),
             version: $this->lines[0] instanceof Version ? $this->lines[0] : new Version(),
