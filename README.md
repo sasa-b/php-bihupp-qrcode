@@ -12,7 +12,7 @@ Dodavanje QR koda u definisanom formatu na računima omogućava krajnjim korisni
 
 Za Kotlin biblioteku idite na [kotlin-bihupp-qrcode](https://github.com/sasa-b/kotlin-bihupp-qrcode).
 
-**Da biste verifikovali validnost QR koda ili da ga generišete ručno, koristite [bihupp-qrcode-validator](https://s-co.tech/bihupp-qrcode-verifikator)**
+**Da biste verifikovali validnost QR koda ili da ga generišete ručno, koristite [s-co.tech/bihupp-qrcode-verifikator](https://s-co.tech/bihupp-qrcode-verifikator)**
 
 ---------------------------------------------------------
 
@@ -24,7 +24,7 @@ Adding a QR code in the defined format to invoices enables end-users to make pay
 
 For Kotlin library go to [kotlin-bihupp-qrcode](https://github.com/sasa-b/kotlin-bihupp-qrcode).
 
-**To verify validity of the QR Code or to generate one manually, use [bihupp-qrcode-validator](https://s-co.tech/bihupp-qrcode-verifikator)**
+**To verify validity of the QR Code or to generate one manually, use [s-co.tech/bihupp-qrcode-verifikator](https://s-co.tech/bihupp-qrcode-verifikator)**
 
 ## Table of contents
 
