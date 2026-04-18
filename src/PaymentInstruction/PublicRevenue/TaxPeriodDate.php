@@ -31,7 +31,7 @@ final readonly class TaxPeriodDate extends Line
         return new self('');
     }
 
-    public function toDateTimeImmutable(): \DateTimeImmutable
+    public function toDate(): \DateTimeImmutable
     {
         return \DateTimeImmutable::createFromFormat('dmY', $this->value);
     }
