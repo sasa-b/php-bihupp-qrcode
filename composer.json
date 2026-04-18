@@ -3,7 +3,7 @@
     "description": "Library implementing the BIHUPP QR Code standard for representing bank payment instructions as QR Codes",
     "type": "library",
     "keywords": ["bihupp", "bihupp10", "qr code", "qrcode", "payment instruction", "bank transfer", "bosnia", "hercegovina", "platni promet"],
-    "version": "0.2.2",
+    "version": "0.2.3",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
