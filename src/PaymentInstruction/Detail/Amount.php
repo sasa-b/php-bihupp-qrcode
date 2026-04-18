@@ -46,4 +46,14 @@ final readonly class Amount extends Line
     {
         return new self((string) $value);
     }
+
+    public function toInteger(): int
+    {
+        return (int) $this->value;
+    }
+
+    public function toFloat(): float
+    {
+        return round($this->toInteger() / 100, 2);
+    }
 }
